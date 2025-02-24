@@ -12,7 +12,7 @@ public class CaesarCipher {
     // Decrypt text or file content using the Caesar cipher
     public static String decrypt(String input , int key,boolean isFilePath){
         String text = isFilePath? Utils.readFile(input) : input;
-        return process(text,key-(key%26));// Reverse shift for decryption
+        return process(text,-key);// Reverse shift for decryption
     }
 
     // General fct to process text for encryption/decryption

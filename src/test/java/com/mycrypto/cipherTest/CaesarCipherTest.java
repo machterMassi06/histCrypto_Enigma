@@ -12,4 +12,11 @@ public class CaesarCipherTest {
         String encryptedText = CaesarCipher.encrypt(text, key, false);
         assertEquals("KHOOR ZRUOG",encryptedText);
     }
+    @Test
+    public void testCaesarDecrypt(){
+        String text = "khoor zruog";
+        int key =3;
+        String decryptedText = CaesarCipher.decrypt(text, key, false);
+        assertEquals("hello world",decryptedText);
+    }
 }

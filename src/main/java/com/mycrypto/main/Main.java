@@ -6,6 +6,6 @@ public class Main {
         int key =3;
         String encryptedText = CaesarCipher.encrypt(text, key, false);
         System.out.println("key= "+key+" encrypted text = "+encryptedText);
-        System.out.println("origin text= "+CaesarCipher.decrypt(text, key, false));
+        System.out.println("origin text= "+CaesarCipher.decrypt(encryptedText, key, false));
     }
 }
