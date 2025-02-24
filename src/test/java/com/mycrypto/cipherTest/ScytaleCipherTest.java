@@ -18,7 +18,7 @@ public class ScytaleCipherTest {
         String encryptedText = "lunlaessatsadueatebamtmeuiaalfsqieonuncrooaht";
         int key =5;
         String decryptedText = ScytaleCipher.decrypt(encryptedText, key, false);
-        assertEquals("lunlaessatsadueatebamtmeuiaalfsqieonuncrooaht",decryptedText);
+        assertEquals("lesamisnousattaquonsdemainalaubelechateaufort",decryptedText);
     }
 
 }
