@@ -27,20 +27,26 @@ public class ScytaleCipher {
     // Decrypt text or file content using the Scytale cipher
     public static String decrypt(String input , int key,boolean isFilePath){
         input = input.replaceAll("\\s", "");
-        int length = input.length();
-        int cols = (int) Math.ceil((double) length / key);
-        char[] result = new char[length];
+        int len = input.length();
+        int cols = (int) Math.ceil((double) len / key);
+        char[][] result = new char[key][cols];
         int index = 0;
-
+        for (int col = 0; col < cols; col++) {
+            for (int row = 0; row < key; row++) {
+                if (index < len) {
+                    result[row][col] = input.charAt(index++);
+                }
+            }
+        }
+        StringBuilder sb = new StringBuilder();
         for (int row = 0; row < key; row++) {
             for (int col = 0; col < cols; col++) {
-                int charIndex = row * cols + col;
-                if (charIndex < length) {
-                    result[index++] = input.charAt(charIndex);
+                if (result[row][col] != 0) {
+                    sb.append(result[row][col]);
                 }
             }
         }
 
-        return new String(result);
+        return sb.toString();
     }
 }
