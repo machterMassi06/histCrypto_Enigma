@@ -6,29 +6,41 @@ public class ScytaleCipher {
     // Encrypt text or file content using the Scytale cipher
     public static String encrypt(String input , int key,boolean isFilePath){
         String text = isFilePath? Utils.readFile(input) : input;
-        return process(text,key);
-    }
-
-    // Decrypt text or file content using the Scytale cipher
-    public static String decrypt(String input , int key,boolean isFilePath){
-        String text = isFilePath? Utils.readFile(input) : input;
-        return process(text,-key);// Reverse shift for decryption
-    }
-
-    // General fct to process text for encryption/decryption
-    public static String process(String text,int key){
+        // Remove spaces to simplify encryption
+        text = text.replaceAll("\\s", "");
         int len = text.length();
-        int rows =(int) Math.ceil(len/(double) key);
+        int cols = (int) Math.ceil((double) len / key);
         char[] res =new char[len];
         int i=0;
 
-        for (int c=0;c<key;c++){
-            for(int r=0;r<rows;r++){
-                if(r*key + c < len){
-                    res[i++]=text.charAt(r*key + c);
+        for (int c = 0; c < cols; c++) {
+            for (int r = 0; r < key; r++) {
+                int charIndex = r * cols + c;
+                if (charIndex < text.length()) {
+                    res[i++] = text.charAt(charIndex);
                 }
             }
         }
         return new String(res);
+    }
+
+    // Decrypt text or file content using the Scytale cipher
+    public static String decrypt(String input , int key,boolean isFilePath){
+        input = input.replaceAll("\\s", "");
+        int length = input.length();
+        int cols = (int) Math.ceil((double) length / key);
+        char[] result = new char[length];
+        int index = 0;
+
+        for (int row = 0; row < key; row++) {
+            for (int col = 0; col < cols; col++) {
+                int charIndex = row * cols + col;
+                if (charIndex < length) {
+                    result[index++] = input.charAt(charIndex);
+                }
+            }
+        }
+
+        return new String(result);
     }
 }
