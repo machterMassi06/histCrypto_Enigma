@@ -12,16 +12,16 @@ public class Rotor {
     }
 
     public void rotate(){
-        pos=pos+1 %26;
+        pos=(pos+1) %26;
     }
 
     public char forward(char letter){
-        int idx = (letter -'A' + pos)%26;
+        int idx = (letter -'A' + pos) % 26;
         return wiring.charAt(idx);
     }
 
     public char backward(char letter){
-        int idx = wiring.indexOf(letter) - pos;
+        int idx = wiring.indexOf(letter) ;
         int shiftedIdx = (idx - pos + 26) % 26;
         return (char) ('A'+shiftedIdx);
     }
@@ -30,4 +30,11 @@ public class Rotor {
         return wiring.charAt(pos)==trainingPos;
     }
 
+    public int getPosition() {
+        return pos;
+    }
+
+    public void setPosition(int p){
+        this.pos=p;
+    }
 }
