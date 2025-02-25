@@ -12,7 +12,7 @@ public class EnigmaMachine {
         this.plugboard=plugboard;
     }
 
-    // Method to encrypt a letter
+    // Method to encrypt a letter (tape)
     public char encrypt(char letter){
         letter =plugboard.swap(letter); //connection board
 
