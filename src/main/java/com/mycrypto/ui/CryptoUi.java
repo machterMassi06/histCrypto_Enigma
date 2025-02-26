@@ -49,8 +49,8 @@ public class CryptoUi extends Application {
         processButton.setOnAction(e -> processText());
 
         resultTextArea = new TextArea();
-        resultTextArea.setEditable(false); // Rendre la zone de texte non éditable
-        resultTextArea.setWrapText(true);  // Permet de revenir à la ligne si le texte est long
+        resultTextArea.setEditable(false);
+        resultTextArea.setWrapText(true);
         resultTextArea.setPromptText("Encrypted/Decrypted text will appear here...");
 
         VBox layout = new VBox(10);
@@ -65,26 +65,21 @@ public class CryptoUi extends Application {
 
     private void processText() {
         String method = methodChoice.getValue();
-        String text = inputText.getText().toUpperCase();
+        String text = inputText.getText();
         String key = keyText.getText().toUpperCase();
         boolean isEncrypting = ((RadioButton) modeGroup.getSelectedToggle()).getText().equals("Encrypt");
         String result = "";
 
         try {
-            switch (method) {
-                case "Caesar":
-                    result = isEncrypting ? CaesarCipher.encrypt(text, Integer.parseInt(key), false) :
-                            CaesarCipher.decrypt(text, Integer.parseInt(key), false);
-                    break;
-                case "Vigenere":
-                    result = isEncrypting ? VigenereCipher.encrypt(text, key, false) :
-                            VigenereCipher.decrypt(text, key, false);
-                    break;
-                case "Scytale":
-                    result = isEncrypting ? ScytaleCipher.encrypt(text, Integer.parseInt(key), false) :
-                            ScytaleCipher.decrypt(text, Integer.parseInt(key), false);
-                    break;
-            }
+            result = switch (method) {
+                case "Caesar" -> isEncrypting ? CaesarCipher.encrypt(text, Integer.parseInt(key), false) :
+                        CaesarCipher.decrypt(text, Integer.parseInt(key), false);
+                case "Vigenere" -> isEncrypting ? VigenereCipher.encrypt(text, key, false) :
+                        VigenereCipher.decrypt(text, key, false);
+                case "Scytale" -> isEncrypting ? ScytaleCipher.encrypt(text, Integer.parseInt(key), false) :
+                        ScytaleCipher.decrypt(text, Integer.parseInt(key), false);
+                default -> result;
+            };
         } catch (Exception e) {
             result = "Error: " + e.getMessage();
         }
