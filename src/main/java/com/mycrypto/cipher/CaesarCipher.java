@@ -23,7 +23,7 @@ public class CaesarCipher {
         for (char c :text.toCharArray()) {
             if (Character.isLetter(c)) {
                 char base = Character.isUpperCase(c) ? 'A' : 'a';
-                result.append((char) ((c - base + key) % 26 + base));
+                result.append((char) ((c - base + key + 26) % 26 + base));
             } else {
                 result.append(c); // Keep non-alphabetic(blanc)characters unchanged
             }

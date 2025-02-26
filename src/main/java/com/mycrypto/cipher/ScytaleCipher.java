@@ -26,7 +26,8 @@ public class ScytaleCipher {
 
     // Decrypt text or file content using the Scytale cipher
     public static String decrypt(String input , int key,boolean isFilePath){
-        input = input.replaceAll("\\s", "");
+        String text= isFilePath? Utils.readFile(input) : input;
+        input = text.replaceAll("\\s", "");
         int len = input.length();
         int cols = (int) Math.ceil((double) len / key);
         char[][] result = new char[key][cols];
@@ -45,8 +46,9 @@ public class ScytaleCipher {
                     sb.append(result[row][col]);
                 }
             }
-        }
+        };
 
         return sb.toString();
+
     }
 }
