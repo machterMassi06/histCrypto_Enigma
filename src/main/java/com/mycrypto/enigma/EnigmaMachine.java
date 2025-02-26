@@ -5,8 +5,8 @@ import java.util.Stack;
 // version of 3 rotors among 5
 public class EnigmaMachine {
     private final Rotor[] rotors ;
-    private final Reflector reflector;
-    private final Plugboard plugboard;
+    private Reflector reflector;
+    private Plugboard plugboard;
     private Stack<int[]> rotorPositionsStack;
 
     public EnigmaMachine(Rotor[] rotors,Reflector reflector,Plugboard plugboard){
@@ -16,6 +16,17 @@ public class EnigmaMachine {
         this.rotorPositionsStack =new Stack<>();
     }
 
+    public Rotor[] getRotors(){
+        return rotors;
+    }
+
+    public void setReflector(Reflector ref){
+        reflector = ref;
+    }
+
+    public void setPlugboard(Plugboard pg){
+        plugboard = pg;
+    }
     private void saveRotorPositions() {
         int[] positions = new int[rotors.length];
         for (int i = 0; i < rotors.length; i++) {
