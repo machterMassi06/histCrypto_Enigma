@@ -7,30 +7,36 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+import javafx.scene.layout.*;
+import javafx.stage.*;
 
 public class CryptoUi extends Application {
 
     private ComboBox<String> methodChoice;
     private TextField inputText;
     private TextField keyText;
-    private Label resultLabel;
+    private TextArea resultTextArea;
     private ToggleGroup modeGroup;
 
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Encryption/Decryption Application");
 
+        Button EnigmaButton = new Button("Enigma Machine");
+        EnigmaButton.setOnAction(e -> openEnigmaConfigUI());
+
+
         methodChoice = new ComboBox<>();
-        methodChoice.getItems().addAll("Caesar", "Vigenere", "Scytale", "Enigma");
+        methodChoice.getItems().addAll("Caesar", "Vigenere", "Scytale");
         methodChoice.setValue("Caesar");
+
 
         inputText = new TextField();
         inputText.setPromptText("Enter the text");
 
+
         keyText = new TextField();
-        keyText.setPromptText("Enter the key (if needed)");
+        keyText.setPromptText("Enter the key (<integer> for scytale & Caesar) ,<TextKey> for Vigenere. ");
 
         modeGroup = new ToggleGroup();
         RadioButton encryptMode = new RadioButton("Encrypt");
@@ -42,16 +48,20 @@ public class CryptoUi extends Application {
         Button processButton = new Button("Process");
         processButton.setOnAction(e -> processText());
 
-        resultLabel = new Label("Result: ");
+        resultTextArea = new TextArea();
+        resultTextArea.setEditable(false); // Rendre la zone de texte non éditable
+        resultTextArea.setWrapText(true);  // Permet de revenir à la ligne si le texte est long
+        resultTextArea.setPromptText("Encrypted/Decrypted text will appear here...");
 
         VBox layout = new VBox(10);
         layout.setPadding(new Insets(20));
-        layout.getChildren().addAll(methodChoice, inputText, keyText, encryptMode, decryptMode, processButton, resultLabel);
+        layout.getChildren().addAll(EnigmaButton,methodChoice, inputText, keyText, encryptMode, decryptMode, processButton, resultTextArea);
 
-        Scene scene = new Scene(layout, 400, 300);
+        Scene scene = new Scene(layout, 400, 400);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
 
     private void processText() {
         String method = methodChoice.getValue();
@@ -74,24 +84,20 @@ public class CryptoUi extends Application {
                     result = isEncrypting ? ScytaleCipher.encrypt(text, Integer.parseInt(key), false) :
                             ScytaleCipher.decrypt(text, Integer.parseInt(key), false);
                     break;
-                case "Enigma":
-                    openEnigmaUI(); // Interface avancée pour Enigma
-                    return;
             }
         } catch (Exception e) {
             result = "Error: " + e.getMessage();
         }
 
-        resultLabel.setText("Result: " + result);
+        resultTextArea.setText(result);
     }
 
-    private void openEnigmaUI() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Enigma Machine");
-        alert.setHeaderText(null);
-        alert.setContentText("Opening advanced Enigma UI...");
-        alert.showAndWait();
-        // Ici, on peut ouvrir une nouvelle fenêtre avec l'interface avancée d'Enigma
+
+    private void openEnigmaConfigUI() {
+        Stage enigmaConfigStage = new Stage();
+        EnigmaConfigUI enigmaConfigUI = new EnigmaConfigUI();
+        enigmaConfigUI.start(enigmaConfigStage);
+        enigmaConfigStage.show();
     }
 
     public static void main(String[] args) {
